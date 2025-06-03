@@ -1,0 +1,22 @@
+package com.ubayadev.expensetracker.model.expensedb
+
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import com.ubayadev.expensetracker.model.Expense
+import com.ubayadev.expensetracker.model.ExpenseWithBudgetName
+
+@Dao
+interface ExpenseDao {
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insert(expense: Expense)
+
+    @Query("""
+        SELECT exp.id, exp.budget_id as budgetId, exp.date, exp.nominal, bud.name 
+        FROM expenses_db AS exp
+        INNER JOIN budgets_db AS bud ON exp.budget_id = bud.id
+        ORDER BY exp.date DESC
+    """)
+    fun getAllExpenses(): List<ExpenseWithBudgetName>
+}
