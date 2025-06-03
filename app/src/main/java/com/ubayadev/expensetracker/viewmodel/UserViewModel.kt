@@ -33,42 +33,50 @@ class UserViewModel(application: Application): AndroidViewModel(application), Co
     fun signUp(username: String, firstName: String, lastName: String, password: String) {
         launch {
             val db = buildUserDB(getApplication())
-            val hashedPassword = BCrypt
-                .withDefaults()
-                .hashToString(12, password.toCharArray())
-            val user = User(
-                username = username,
-                firstName = firstName,
-                lastName = lastName,
-                password = hashedPassword
-            )
-//            db.userDao().insert(user)
-            successLD.postValue(true)
+            // Check user
+            var user = db.userDao().select(username)
+
+            if (user != null) {
+                errorMessageLD.postValue("Username is already taken!")
+                successLD.postValue(false)
+            } else {
+                val hashedPassword = BCrypt
+                    .withDefaults()
+                    .hashToString(12, password.toCharArray())
+                user = User(
+                    username = username,
+                    firstName = firstName,
+                    lastName = lastName,
+                    password = hashedPassword
+                )
+                db.userDao().insert(user)
+                successLD.postValue(true)
+            }
         }
     }
 
     fun signIn(username: String, password: String) {
         launch {
             val db = buildUserDB(getApplication())
+
             // Hash Password
-//            val user = db.userDao().select(username)
-            val user = null
+            val user = db.userDao().select(username)
 
             if (user == null) {
-                errorMessageLD.postValue("Username atau Password salah!")
+                errorMessageLD.postValue("Username or Password is Incorrect!")
                 successLD.postValue(false)
             } else {
                 // Check Password
-//                val verifiedPassword = BCrypt
-//                    .verifyer()
-//                    .verify(password.toCharArray(), user.password)
-//
-//                if (verifiedPassword.verified) {
-//                    errorMessageLD.postValue("")
-//                    successLD.postValue(true)
-//                } else {
-//                    errorMessageLD.postValue("Username atau Password salah!")
-//                }
+                val verifiedPassword = BCrypt
+                    .verifyer()
+                    .verify(password.toCharArray(), user.password)
+
+                if (verifiedPassword.verified) {
+                    errorMessageLD.postValue("")
+                    successLD.postValue(true)
+                } else {
+                    errorMessageLD.postValue("Username or Password is Incorrect!")
+                }
             }
         }
     }

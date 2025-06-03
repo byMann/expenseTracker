@@ -13,7 +13,7 @@ interface UserDao {
     fun insert(user: User)
 
     @Query("SELECT * FROM user WHERE username = :username LIMIT 1")
-    fun select(username: String): User
+    fun select(username: String): User?
 
     @Update
     fun update(user: User)

@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import com.ubayadev.expensetracker.R
 import com.ubayadev.expensetracker.databinding.FragmentSignInBinding
 import com.ubayadev.expensetracker.viewmodel.UserViewModel
@@ -50,13 +51,18 @@ class SignInFragment() : Fragment() {
         viewModel = ViewModelProvider(this)
             .get(UserViewModel::class.java)
 
-        viewModel.init()
+//        viewModel.init()
 
         binding.btnSignIn.setOnClickListener {
             var username = binding.txtUsername.text.toString()
             var password = binding.txtPassword.text.toString()
 
             viewModel.signIn(username, password)
+        }
+
+        binding.btnSignUp.setOnClickListener {
+            val action = SignInFragmentDirections.actionSignUp()
+            Navigation.findNavController(it).navigate(action)
         }
 
         observeViewModel()
@@ -66,9 +72,14 @@ class SignInFragment() : Fragment() {
         viewModel.successLD.observe(viewLifecycleOwner, Observer {
             // Kalo success
             if (it) {
-                val intent = Intent(requireContext(), MainActivity::class.java)
-                startActivity(intent)
-                requireActivity().finish()
+//                val intent = Intent(requireContext(), MainActivity::class.java)
+//                startActivity(intent)
+//                requireActivity().finish()
+                AlertDialog.Builder(requireContext())
+                    .setTitle("Error")
+                    .setMessage("BERHASIL SIGN IN")
+                    .setPositiveButton("OK") { _, _ -> }
+                    .show()
             }
         })
 
