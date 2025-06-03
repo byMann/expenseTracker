@@ -4,11 +4,10 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity
+@Entity()
 data class User(
     @ColumnInfo("username")
     var username: String,
-
     @ColumnInfo("first_name")
     var firstName: String,
     @ColumnInfo("last_name")
@@ -22,8 +21,11 @@ data class User(
 
 @Entity
 data class Budget(
+    @ColumnInfo("user_id")
     var userId: String,
+    @ColumnInfo("name")
     var name: String,
+    @ColumnInfo("nominal")
     var nominal: Int
 ) {
     @PrimaryKey(autoGenerate = true)
@@ -32,8 +34,11 @@ data class Budget(
 
 @Entity
 data class Expense(
+    @ColumnInfo("budget_id")
     var budgetId: Int,
+    @ColumnInfo("date")
     var date: Int,
+    @ColumnInfo("nominal")
     var nominal: Int
 ) {
     @PrimaryKey(autoGenerate = true)
@@ -42,6 +47,7 @@ data class Expense(
 
 data class ExpenseWithBudgetName(
     val id: Int,
+    @ColumnInfo(name = "budget_id")
     val budgetId: Int,
     val date: Int,
     val nominal: Int,
