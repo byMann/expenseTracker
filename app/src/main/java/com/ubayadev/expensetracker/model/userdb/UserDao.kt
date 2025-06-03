@@ -12,8 +12,8 @@ interface UserDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(user: User)
 
-    @Query("SELECT * FROM users_db WHERE id = :id LIMIT 1")
-    fun select(id: Int): User?
+    @Query("SELECT * FROM user WHERE username = :username LIMIT 1")
+    fun select(username: String): User
 
     @Update
     fun update(user: User)

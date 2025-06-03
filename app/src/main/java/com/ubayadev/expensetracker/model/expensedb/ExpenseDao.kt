@@ -13,9 +13,9 @@ interface ExpenseDao {
     fun insert(expense: Expense)
 
     @Query("""
-        SELECT exp.id, exp.budget_id as budgetId, exp.date, exp.nominal, bud.name 
-        FROM expenses_db AS exp
-        INNER JOIN budgets_db AS bud ON exp.budget_id = bud.id
+        SELECT exp.id, exp.budget_id as budgetId, exp.date, exp.nominal, bud.name
+        FROM expense AS exp
+        INNER JOIN budget AS bud ON exp.budget_id = bud.id
         ORDER BY exp.date DESC
     """)
     fun getAllExpenses(): List<ExpenseWithBudgetName>

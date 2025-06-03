@@ -58,4 +58,7 @@ dependencies {
     implementation(libs.androidx.room.runtime)
     implementation(libs.room.ktx)
     kapt(libs.room.compiler)
+
+    // BCrypt
+    implementation(libs.bcrypt)
 }
