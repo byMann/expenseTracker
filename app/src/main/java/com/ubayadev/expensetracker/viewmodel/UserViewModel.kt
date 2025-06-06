@@ -24,9 +24,9 @@ class UserViewModel(application: Application): AndroidViewModel(application), Co
     override val coroutineContext: CoroutineContext
         get() = job + Dispatchers.IO
 
-    fun init() {
+    fun refresh() {
         launch {
-            val db = buildUserDB(getApplication())
+            successLD.postValue(false)
         }
     }
 

@@ -11,24 +11,29 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.ubayadev.expensetracker.R
 import com.ubayadev.expensetracker.databinding.ActivityMainBinding
+import com.ubayadev.expensetracker.util.getCurrentUser
 
 class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
+        // CHECK APAKAH UDH SIGN IN ATAU BLM
+        if (getCurrentUser(this) == "") {
+            val intent = Intent(this, AuthActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         supportActionBar?.hide()
 
         navController = (supportFragmentManager.findFragmentById(R.id.navHost) as NavHostFragment)
             .navController
 
         binding.bottomNav.setupWithNavController(navController)
-//
-//        val intent = Intent(this, AuthActivity::class.java)
-//        startActivity(intent)
-//        finish()
     }
 }

@@ -73,8 +73,10 @@ class SignUpFragment : Fragment() {
         viewModel.successLD.observe(viewLifecycleOwner, Observer {
             // Kalo success
             if (it) {
+                viewModel.refresh()
+
                 AlertDialog.Builder(requireContext())
-                    .setTitle("Error")
+                    .setTitle("Success")
                     .setMessage("Account created successfully")
                     .setPositiveButton("OK") { _, _ ->
                         Navigation.findNavController(requireView()).popBackStack()

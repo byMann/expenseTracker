@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.ubayadev.expensetracker.R
 import com.ubayadev.expensetracker.databinding.FragmentSignInBinding
+import com.ubayadev.expensetracker.util.login
 import com.ubayadev.expensetracker.viewmodel.UserViewModel
 
 
@@ -72,13 +73,18 @@ class SignInFragment() : Fragment() {
         viewModel.successLD.observe(viewLifecycleOwner, Observer {
             // Kalo success
             if (it) {
-//                val intent = Intent(requireContext(), MainActivity::class.java)
-//                startActivity(intent)
-//                requireActivity().finish()
+                // Simpan di Shared Preference
+                login(requireContext(), binding.txtUsername.text.toString())
+
+                // Pindah ke Main Activity
                 AlertDialog.Builder(requireContext())
                     .setTitle("Error")
-                    .setMessage("BERHASIL SIGN IN")
-                    .setPositiveButton("OK") { _, _ -> }
+                    .setMessage("Signed in successfully.")
+                    .setPositiveButton("OK") { _, _ ->
+                        val intent = Intent(requireContext(), MainActivity::class.java)
+                        startActivity(intent)
+                        requireActivity().finish()
+                    }
                     .show()
             }
         })
