@@ -1,6 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/navigation_main">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_main"
+    app:startDestination="@id/itemExpense">
 
+    <fragment
+        android:id="@+id/itemExpense"
+        android:name="com.ubayadev.expensetracker.view.expense.ExpenseTrackerFragment"
+        android:label="fragment_expense_tracker"
+        tools:layout="@layout/fragment_expense_tracker" />
+    <fragment
+        android:id="@+id/itemBudgeting"
+        android:name="com.ubayadev.expensetracker.view.budgeting.BudgetingFragment"
+        android:label="fragment_budgeting"
+        tools:layout="@layout/fragment_budgeting" />
+    <fragment
+        android:id="@+id/itemReport"
+        android:name="com.ubayadev.expensetracker.view.report.ReportFragment"
+        android:label="fragment_report"
+        tools:layout="@layout/fragment_report" />
+    <fragment
+        android:id="@+id/itemProfile"
+        android:name="com.ubayadev.expensetracker.view.profile.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
 </navigation>
