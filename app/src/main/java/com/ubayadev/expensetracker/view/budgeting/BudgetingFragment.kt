@@ -50,7 +50,9 @@ class BudgetingFragment : Fragment() {
         binding.budgetRecycleView.layoutManager = LinearLayoutManager(requireContext())
         binding.budgetRecycleView.adapter = budgetListAdapter
         binding.txtError.visibility = View.GONE
+        binding.progressBar.visibility = View.VISIBLE
 
+        observeViewModel()
     }
 
     fun observeViewModel() {
@@ -66,6 +68,7 @@ class BudgetingFragment : Fragment() {
         })
 
         viewModel.budgetLoadingLD.observe(viewLifecycleOwner, Observer {
+            Log.d("LOADING", it.toString())
             if (it) binding.progressBar?.visibility = View.VISIBLE
             else binding.progressBar?.visibility = View.GONE
         })

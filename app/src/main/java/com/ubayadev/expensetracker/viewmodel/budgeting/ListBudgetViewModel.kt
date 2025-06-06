@@ -1,6 +1,7 @@
 package com.ubayadev.expensetracker.viewmodel.budgeting
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.ubayadev.expensetracker.model.Budget
@@ -26,17 +27,19 @@ class ListBudgetViewModel(application: Application): AndroidViewModel(applicatio
         launch {
             val userDb = buildDb(getApplication())
             val user_id = userDb.userDao().select(username)!!.id
+            Log.d("USER_ID", user_id.toString())
 
 //            val budgetDb = buildBudgetDB(getApplication())
             val budgets: List<Budget> = userDb.budgetDao().getAllUserBudgets(user_id)
+            Log.d("LIST BUDGET", budgets.toString())
 
-            if (budgets.size > 0) {
-                budgetsLD.postValue(budgets)
-                budgetLoadingLD.postValue(false)
-            } else {
+            budgetsLD.postValue(budgets)
+            budgetLoadingLD.postValue(false)
+
+            if (budgets.isEmpty()) {
+                Log.d("LIST BUDGET EMPTY", "EMPTY")
                 budgetErrorLD.postValue("You don't have any budgets yet! Let's create one!")
             }
-
         }
     }
 }
