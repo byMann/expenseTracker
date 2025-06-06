@@ -1,4 +1,4 @@
-package com.ubayadev.expensetracker.model.userdb
+package com.ubayadev.expensetracker.model.dao
 
 import androidx.room.Dao
 import androidx.room.Insert

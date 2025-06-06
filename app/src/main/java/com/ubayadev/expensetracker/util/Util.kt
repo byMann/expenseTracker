@@ -2,26 +2,15 @@ package com.ubayadev.expensetracker.util
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.ubayadev.expensetracker.model.budgetdb.BudgetDatabase
-import com.ubayadev.expensetracker.model.expensedb.ExpenseDatabase
-import com.ubayadev.expensetracker.model.userdb.UserDatabase
+import com.ubayadev.expensetracker.model.ExpenseTrackerDatabase
 
 val DB_NAME = "moneytrackerdb"
 private val SHARED_PREFERENCE_KEY = "SETTING"
 private val USER_PREFERENCE_KEY = "USER"
+private val ID_PREFERENCE_KEY = "USER_ID"
 
-fun buildUserDB(context: Context): UserDatabase {
-    val db = UserDatabase.buildDatabase(context)
-    return db
-}
-
-fun buildBudgetDB(context: Context): BudgetDatabase {
-    val db = BudgetDatabase.buildDatabase(context)
-    return db
-}
-
-fun buildExpenseDB(context: Context): ExpenseDatabase {
-    val db = ExpenseDatabase.buildDatabase(context)
+fun buildDb(context: Context): ExpenseTrackerDatabase {
+    val db = ExpenseTrackerDatabase.buildDatabase(context)
     return db
 }
 
@@ -36,6 +25,7 @@ fun login(context: Context, username: String) {
         .edit()
         .apply {
             putString(USER_PREFERENCE_KEY, username)
+//            putInt(ID_PREFERENCE_KEY, id)
             apply()
         }
 }
@@ -47,8 +37,13 @@ fun logout(context: Context) {
         .apply()
 }
 
-fun getCurrentUser(context: Context): String {
+fun getCurrentUsername(context: Context): String {
     return buildSharedPreference(context)
         .getString(USER_PREFERENCE_KEY, "")
         .toString()
+}
+
+fun getCurrentId(context: Context): Int {
+    return buildSharedPreference(context)
+        .getInt(ID_PREFERENCE_KEY, -1)
 }

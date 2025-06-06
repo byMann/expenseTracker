@@ -1,19 +1,22 @@
-package com.ubayadev.expensetracker.model.budgetdb
+package com.ubayadev.expensetracker.model
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.ubayadev.expensetracker.model.Budget
-import com.ubayadev.expensetracker.model.userdb.UserDao
+import com.ubayadev.expensetracker.model.dao.BudgetDao
+import com.ubayadev.expensetracker.model.dao.ExpenseDao
+import com.ubayadev.expensetracker.model.dao.UserDao
 import com.ubayadev.expensetracker.util.DB_NAME
 
-@Database(entities = [Budget::class], version = 1)
-abstract class BudgetDatabase: RoomDatabase() {
+@Database(entities = [User::class, Budget::class, Expense::class], version = 1)
+abstract class ExpenseTrackerDatabase: RoomDatabase() {
+    abstract fun userDao(): UserDao
     abstract fun budgetDao(): BudgetDao
+    abstract fun expenseDao(): ExpenseDao
 
     companion object {
-        @Volatile private var instance: BudgetDatabase? = null
+        @Volatile private var instance: ExpenseTrackerDatabase? = null
 
         private val LOCK = Any()
 
@@ -21,7 +24,7 @@ abstract class BudgetDatabase: RoomDatabase() {
             Room
                 .databaseBuilder(
                     context.applicationContext,
-                    BudgetDatabase::class.java,
+                    ExpenseTrackerDatabase::class.java,
                     DB_NAME
                 )
                 .fallbackToDestructiveMigration()
