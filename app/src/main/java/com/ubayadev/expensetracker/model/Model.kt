@@ -25,7 +25,7 @@ data class User(
 @Entity
 data class Budget(
     @ColumnInfo("user_id")
-    var userId: String,
+    var userId: Int,
 
     @ColumnInfo("name")
     var name: String,

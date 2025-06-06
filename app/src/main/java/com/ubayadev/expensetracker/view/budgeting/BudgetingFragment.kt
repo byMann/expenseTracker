@@ -1,5 +1,7 @@
 package com.ubayadev.expensetracker.view.budgeting
 
+import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -8,16 +10,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ubayadev.expensetracker.databinding.FragmentBudgetingBinding
 import com.ubayadev.expensetracker.util.getCurrentUsername
+import com.ubayadev.expensetracker.view.AddBudgetListener
+import com.ubayadev.expensetracker.view.MainActivity
 import com.ubayadev.expensetracker.viewmodel.budgeting.ListBudgetViewModel
 
-/**
- * A simple [Fragment] subclass.
- * Use the [BudgetingFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class BudgetingFragment : Fragment() {
     private lateinit var viewModel: ListBudgetViewModel
     private lateinit var binding: FragmentBudgetingBinding
@@ -51,6 +51,27 @@ class BudgetingFragment : Fragment() {
         binding.budgetRecycleView.adapter = budgetListAdapter
         binding.txtError.visibility = View.GONE
         binding.progressBar.visibility = View.VISIBLE
+
+        binding.addBudgetFab.setOnClickListener {
+            val action = BudgetingFragmentDirections.actionCreateNewBudget()
+            Navigation
+                .findNavController(it)
+                .navigate(action)
+        }
+
+        // Buat notifikasi
+        parentFragmentManager.setFragmentResultListener("new_budget", viewLifecycleOwner) { _, bundle ->
+            val success = bundle.getBoolean("success", false)
+            if (success) {
+                AlertDialog.Builder(requireContext())
+                    .setTitle("Success")
+                    .setMessage("New Budget Added Successfully")
+                    .setPositiveButton("OK", null)
+                    .show()
+
+                viewModel.fetch(getCurrentUsername(requireContext()))
+            }
+        }
 
         observeViewModel()
     }

@@ -6,6 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.ubayadev.expensetracker.model.Budget
 import com.ubayadev.expensetracker.util.buildDb
+import com.ubayadev.expensetracker.util.getCurrentUsername
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -16,6 +17,7 @@ class ListBudgetViewModel(application: Application): AndroidViewModel(applicatio
     val budgetsLD = MutableLiveData<List<Budget>>()
     val budgetLoadingLD = MutableLiveData<Boolean>()
     val budgetErrorLD = MutableLiveData<String>()
+    val newBudgetSuccessLD = MutableLiveData<Boolean>()
     private val job = Job()
 
     override val coroutineContext: CoroutineContext
@@ -39,7 +41,20 @@ class ListBudgetViewModel(application: Application): AndroidViewModel(applicatio
             if (budgets.isEmpty()) {
                 Log.d("LIST BUDGET EMPTY", "EMPTY")
                 budgetErrorLD.postValue("You don't have any budgets yet! Let's create one!")
+            } else {
+                budgetErrorLD.postValue("")
             }
+        }
+    }
+
+    fun create(budgetName: String, budgetNominal: Int) {
+        launch {
+            val userDb = buildDb(getApplication())
+            val user_id = userDb.userDao().select(getCurrentUsername(getApplication()))!!.id
+            val newBudget = Budget(user_id, budgetName, budgetNominal)
+            userDb.budgetDao().insert(newBudget);
+
+            newBudgetSuccessLD.postValue(true)
         }
     }
 }
