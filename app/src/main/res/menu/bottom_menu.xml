@@ -14,7 +14,7 @@
         app:showAsAction="always" />
     <item
         android:id="@+id/itemReport"
-        android:icon="@drawable/outline_align_horizontal_left_24"
+        android:icon="@drawable/outline_bar_chart_24"
         android:title="Report"
         app:showAsAction="always" />
     <item
