@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.ubayadev.expensetracker.databinding.FragmentProfileBinding
 import com.ubayadev.expensetracker.util.getCurrentUsername
+import com.ubayadev.expensetracker.util.logout
 import com.ubayadev.expensetracker.view.AuthActivity
 import com.ubayadev.expensetracker.view.MainActivity
 import com.ubayadev.expensetracker.viewmodel.ProfileViewModel
@@ -62,7 +63,8 @@ class ProfileFragment : Fragment() {
 
         viewModel.navigateToSignInLD.observe(viewLifecycleOwner) { navigate ->
             if (navigate == true) {
-                clearUserSession()
+//                clearUserSession()
+                logout(requireContext())
 
                 val intent = Intent(activity, AuthActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
