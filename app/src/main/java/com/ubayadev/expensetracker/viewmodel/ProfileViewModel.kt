@@ -4,8 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import at.favre.lib.crypto.bcrypt.BCrypt
-import com.ubayadev.expensetracker.model.User
-import com.ubayadev.expensetracker.util.buildUserDB
+import com.ubayadev.expensetracker.util.buildDb
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -45,12 +44,11 @@ class ProfileViewModel(application: Application) : AndroidViewModel(application)
         }
 
         launch {
-            val db = buildUserDB(getApplication())
+            val db = buildDb(getApplication())
             val user = db.userDao().select(username)
 
             if (user == null) {
-                toastMessageLD.postValue("User tidak ditemukan. Harap login kembali.")
-
+                toastMessageLD.postValue("user tidak ditemukan.")
                 return@launch
             }
 
@@ -58,17 +56,14 @@ class ProfileViewModel(application: Application) : AndroidViewModel(application)
 
             if (verificationResult.verified) {
                 val newHashedPassword = BCrypt.withDefaults().hashToString(12, newPass.toCharArray())
-
                 db.userDao().updatePassword(username, newHashedPassword)
                 toastMessageLD.postValue("Password berhasil diubah!")
 
-                // reset tampilan
                 oldPasswordLD.postValue("")
                 newPasswordLD.postValue("")
                 repeatPasswordLD.postValue("")
 
             } else {
-                // kalau password lama salah
                 toastMessageLD.postValue("Password lama salah!")
             }
         }

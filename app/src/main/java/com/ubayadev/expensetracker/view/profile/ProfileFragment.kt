@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.ubayadev.expensetracker.databinding.FragmentProfileBinding
-import com.ubayadev.expensetracker.util.getCurrentUser
+import com.ubayadev.expensetracker.util.getCurrentUsername
 import com.ubayadev.expensetracker.view.AuthActivity
 import com.ubayadev.expensetracker.view.MainActivity
 import com.ubayadev.expensetracker.viewmodel.ProfileViewModel
@@ -36,7 +36,7 @@ class ProfileFragment : Fragment() {
         binding.profile = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
-        currentUser = getCurrentUser(requireContext())
+        currentUser = getCurrentUsername(requireContext())
 
         binding.btnChange.setOnClickListener {
             if (currentUser.isNotEmpty()) {
