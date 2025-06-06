@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -45,8 +47,21 @@ class CreateNewBudgetFragment : BottomSheetDialogFragment() {
 
         binding.btnAddBudget.setOnClickListener {
             val budgetName = binding.txtBudgetName.text.toString()
-            val budgetNominal = binding.txtBudgetNominal.text.toString().toInt()
-            viewModel.create(budgetName, budgetNominal)
+            val budgetNominal = binding.txtBudgetNominal.text.toString()
+
+            if (budgetName != "" && budgetNominal.isDigitsOnly()) {
+                val budgetNominalInt = budgetNominal.toInt()
+                if (budgetNominalInt > 0) viewModel.create(budgetName, budgetNominalInt)
+                else {
+                    Toast
+                        .makeText(requireContext(),"Please provide a valid name and nominal", Toast.LENGTH_LONG)
+                        .show()
+                }
+            } else {
+                Toast
+                    .makeText(requireContext(),"Please provide a valid name and nominal", Toast.LENGTH_LONG)
+                    .show()
+            }
         }
 
         observeViewModel()
