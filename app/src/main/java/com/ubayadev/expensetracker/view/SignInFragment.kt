@@ -78,7 +78,7 @@ class SignInFragment() : Fragment() {
 
                 // Pindah ke Main Activity
                 AlertDialog.Builder(requireContext())
-                    .setTitle("Error")
+                    .setTitle("Success")
                     .setMessage("Signed in successfully.")
                     .setPositiveButton("OK") { _, _ ->
                         val intent = Intent(requireContext(), MainActivity::class.java)
