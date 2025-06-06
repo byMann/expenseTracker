@@ -1,0 +1,43 @@
+package com.ubayadev.expensetracker.viewmodel.budgeting
+
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MutableLiveData
+import com.ubayadev.expensetracker.model.Budget
+import com.ubayadev.expensetracker.util.buildBudgetDB
+import com.ubayadev.expensetracker.util.buildUserDB
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlin.coroutines.CoroutineContext
+
+class ListBudgetViewModel(application: Application): AndroidViewModel(application), CoroutineScope {
+    val budgetsLD = MutableLiveData<List<Budget>>()
+    val budgetLoadingLD = MutableLiveData<Boolean>()
+    val budgetErrorLD = MutableLiveData<String>()
+    private val job = Job()
+
+    override val coroutineContext: CoroutineContext
+        get() = job + Dispatchers.IO
+
+    fun fetch(username: String) {
+        budgetLoadingLD.value = true
+
+        launch {
+            val userDb = buildUserDB(getApplication())
+            val user_id = userDb.userDao().select(username)!!.id
+
+            val budgetDb = buildBudgetDB(getApplication())
+            val budgets: List<Budget> = budgetDb.budgetDao().getAllUserBudgets(user_id)
+
+            if (budgets.size > 0) {
+                budgetsLD.postValue(budgets)
+                budgetLoadingLD.postValue(false)
+            } else {
+                budgetErrorLD.postValue("You don't have any budgets yet! Let's create one!")
+            }
+
+        }
+    }
+}

@@ -11,7 +11,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.ubayadev.expensetracker.R
 import com.ubayadev.expensetracker.databinding.ActivityMainBinding
-import com.ubayadev.expensetracker.util.getCurrentUser
+import com.ubayadev.expensetracker.util.getCurrentUsername
 
 class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
 
 
         // CHECK APAKAH UDH SIGN IN ATAU BLM
-        if (getCurrentUser(this) == "") {
+        if (getCurrentUsername(this) == "") {
             val intent = Intent(this, AuthActivity::class.java)
             startActivity(intent)
             finish()
