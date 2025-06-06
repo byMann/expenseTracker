@@ -1,15 +1,11 @@
 package com.ubayadev.expensetracker.viewmodel
 
 import android.app.Application
-import android.content.Intent
-import android.service.autofill.UserData
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import at.favre.lib.crypto.bcrypt.BCrypt
 import com.ubayadev.expensetracker.model.User
-import com.ubayadev.expensetracker.model.userdb.UserDatabase
-import com.ubayadev.expensetracker.util.buildUserDB
-import com.ubayadev.expensetracker.view.MainActivity
+import com.ubayadev.expensetracker.util.buildDb
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -32,7 +28,7 @@ class UserViewModel(application: Application): AndroidViewModel(application), Co
 
     fun signUp(username: String, firstName: String, lastName: String, password: String) {
         launch {
-            val db = buildUserDB(getApplication())
+            val db = buildDb(getApplication())
             // Check user
             var user = db.userDao().select(username)
 
@@ -57,7 +53,7 @@ class UserViewModel(application: Application): AndroidViewModel(application), Co
 
     fun signIn(username: String, password: String) {
         launch {
-            val db = buildUserDB(getApplication())
+            val db = buildDb(getApplication())
 
             // Hash Password
             val user = db.userDao().select(username)

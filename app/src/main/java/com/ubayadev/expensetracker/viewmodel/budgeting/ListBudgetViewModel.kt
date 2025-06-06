@@ -4,8 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.ubayadev.expensetracker.model.Budget
-import com.ubayadev.expensetracker.util.buildBudgetDB
-import com.ubayadev.expensetracker.util.buildUserDB
+import com.ubayadev.expensetracker.util.buildDb
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -25,11 +24,11 @@ class ListBudgetViewModel(application: Application): AndroidViewModel(applicatio
         budgetLoadingLD.value = true
 
         launch {
-            val userDb = buildUserDB(getApplication())
+            val userDb = buildDb(getApplication())
             val user_id = userDb.userDao().select(username)!!.id
 
-            val budgetDb = buildBudgetDB(getApplication())
-            val budgets: List<Budget> = budgetDb.budgetDao().getAllUserBudgets(user_id)
+//            val budgetDb = buildBudgetDB(getApplication())
+            val budgets: List<Budget> = userDb.budgetDao().getAllUserBudgets(user_id)
 
             if (budgets.size > 0) {
                 budgetsLD.postValue(budgets)
