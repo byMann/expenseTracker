@@ -22,10 +22,7 @@ class ListBudgetViewModel(application: Application): AndroidViewModel(applicatio
     // Create
     val newBudgetSuccessLD = MutableLiveData<Boolean>()
 
-    // Update
     val budgetDetailLD = MutableLiveData<Budget>()
-    val editBudgetSuccessLD = MutableLiveData<Boolean>()
-    val editBudgetErrorLD = MutableLiveData<String>()
 
     private val job = Job()
 

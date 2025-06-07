@@ -63,7 +63,6 @@ class ProfileFragment : Fragment() {
 
         viewModel.navigateToSignInLD.observe(viewLifecycleOwner) { navigate ->
             if (navigate == true) {
-//                clearUserSession()
                 logout(requireContext())
 
                 val intent = Intent(activity, AuthActivity::class.java)
@@ -76,8 +75,4 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    private fun clearUserSession() {
-        val sharedPrefs = requireActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
-        sharedPrefs.edit().clear().apply()
-    }
 }
