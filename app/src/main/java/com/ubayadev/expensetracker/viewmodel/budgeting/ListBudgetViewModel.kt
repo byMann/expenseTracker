@@ -25,6 +25,7 @@ class ListBudgetViewModel(application: Application): AndroidViewModel(applicatio
     // Edit
     val budgetDetailLD = MutableLiveData<Budget>()
     val currentExpensesLD = MutableLiveData<Int>()
+    val editBudgetSuccessLD = MutableLiveData<Map<String, Any>>()
 
     private val job = Job()
 
@@ -80,17 +81,29 @@ class ListBudgetViewModel(application: Application): AndroidViewModel(applicatio
         }
     }
 
-    fun update(id: Int, name: String, nominal: Int) {
+    fun update(budget: Budget, currentName: String, currentNominal: Int, currentExpense: Int) {
         launch {
-            // Cek total expenses di budget ini
-            val db = buildDb(getApplication())
-            val expenses = db.expenseDao().getCurrentExpenses(id)
-
             // Kalo kurang, return error
+            if (currentNominal < currentExpense) {
+                editBudgetSuccessLD.postValue(mapOf("success" to false, "message" to "Current expenses is less than nominal"))
+            } else {
+                // Kalo nominal baru lebih dari expenses, update
+                val previousName = budget.name
+                val previousNominal = budget.nominal
+                budget.nominal = currentNominal
+                budget.name = currentName
 
+                val db = buildDb(getApplication())
+                db.budgetDao().update(budget)
+                val messages = mutableMapOf<String, Any>()
+                messages.put("success", "true")
+                messages.put("previous_name", previousName)
+                messages.put("current_name", currentName)
+                messages.put("previous_nominal", previousNominal)
+                messages.put("current_nominal", currentNominal)
 
-            // Kalo nominal baru lebih dari expenses, update
-
+                editBudgetSuccessLD.postValue(messages)
+            }
         }
     }
 }

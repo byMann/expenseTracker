@@ -74,6 +74,32 @@ class BudgetingFragment : Fragment() {
             }
         }
 
+        parentFragmentManager.setFragmentResultListener("edit_budget", viewLifecycleOwner) { _, bundle ->
+            val success = bundle.getBoolean("success", false)
+            if (success) {
+                val prevName = bundle.getString("previous_name", "")
+                val currName = bundle.getString("current_name", "")
+                val prevNominal = bundle.getInt("previous_nominal", 0).toString()
+                val currNominal = bundle.getInt("current_nominal", 0).toString()
+
+                val message = """
+                    BUDGET NAME:
+                    $prevName has been changed to $currName
+                    
+                    BUDGET NOMINAL:
+                    $prevNominal has been changed to $currNominal
+                """.trimIndent()
+
+                AlertDialog.Builder(requireContext())
+                    .setTitle("Success")
+                    .setMessage(message)
+                    .setPositiveButton("OK", null)
+                    .show()
+
+                viewModel.fetch(getCurrentUsername(requireContext()))
+            }
+        }
+
         observeViewModel()
     }
 
