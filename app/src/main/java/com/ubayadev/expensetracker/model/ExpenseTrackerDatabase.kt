@@ -7,6 +7,9 @@ import androidx.room.RoomDatabase
 import com.ubayadev.expensetracker.model.dao.BudgetDao
 import com.ubayadev.expensetracker.model.dao.ExpenseDao
 import com.ubayadev.expensetracker.model.dao.UserDao
+import com.ubayadev.expensetracker.model.seeder.BudgetSeeder
+import com.ubayadev.expensetracker.model.seeder.ExpenseSeeder
+import com.ubayadev.expensetracker.model.seeder.UserSeeder
 import com.ubayadev.expensetracker.util.DB_NAME
 
 @Database(entities = [User::class, Budget::class, Expense::class], version = 1)
@@ -28,6 +31,9 @@ abstract class ExpenseTrackerDatabase: RoomDatabase() {
                     DB_NAME
                 )
                 .fallbackToDestructiveMigration()
+                .addCallback(UserSeeder())
+                .addCallback(BudgetSeeder())
+                .addCallback(ExpenseSeeder())
                 .build()
 
 

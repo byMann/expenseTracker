@@ -46,7 +46,10 @@ data class Expense(
     var date: Int,
 
     @ColumnInfo("nominal")
-    var nominal: Int
+    var nominal: Int,
+
+    @ColumnInfo("notes")
+    var notes: String,
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
