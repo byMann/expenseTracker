@@ -22,7 +22,7 @@ interface ExpenseDao {
     fun getAllExpenses(userId: Int): List<Expense>
 
     @Query("SELECT SUM(nominal) FROM expense WHERE budget_id = :budgetId")
-    fun getCurrentExpenses(budgetId: Int): Expense
+    fun getCurrentExpenses(budgetId: Int): Int
 
     @Query("""
         SELECT exp.budget_id as budgetId, exp.date, exp.nominal
