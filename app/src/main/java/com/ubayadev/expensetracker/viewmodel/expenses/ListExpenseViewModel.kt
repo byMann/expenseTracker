@@ -38,7 +38,7 @@ class ListExpenseViewModel (application: Application):AndroidViewModel(applicati
             val user_id = db.userDao().select(username)!!.id
             Log.d("USER_ID", user_id.toString())
 
-            expenseLD.postValue(db.expenseDao().getAllExpenses(user_id))
+//            expenseLD.postValue(db.expenseDao().getAllExpenses(user_id))
             expenseloadingLD.postValue(false)
         }
     }
@@ -56,7 +56,7 @@ class ListExpenseViewModel (application: Application):AndroidViewModel(applicati
     fun getExpenseDetail(expId:Int){
         launch {
             val db  = buildDb(getApplication())
-            expenseDetailLD.postValue(db.expenseDao().getExpensesbyId(expId))
+//            expenseDetailLD.postValue(db.expenseDao().getExpensesbyId(expId))
         }
     }
 

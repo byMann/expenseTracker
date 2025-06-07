@@ -38,7 +38,7 @@ class BudgetListAdapter(var budgetList: ArrayList<Budget>): RecyclerView.Adapter
                 .actionEditBudget(budgetList[position].id!!)
 
             Navigation
-                .findNavController(it)
+                .findNavController(holder.binding.root)
                 .navigate(action)
             true
         }
