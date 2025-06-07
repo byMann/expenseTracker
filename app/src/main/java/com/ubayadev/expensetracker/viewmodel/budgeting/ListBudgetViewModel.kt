@@ -22,7 +22,9 @@ class ListBudgetViewModel(application: Application): AndroidViewModel(applicatio
     // Create
     val newBudgetSuccessLD = MutableLiveData<Boolean>()
 
+    // Edit
     val budgetDetailLD = MutableLiveData<Budget>()
+    val currentExpensesLD = MutableLiveData<Int>()
 
     private val job = Job()
 
@@ -68,6 +70,13 @@ class ListBudgetViewModel(application: Application): AndroidViewModel(applicatio
         launch {
             val db = buildDb(getApplication())
             budgetDetailLD.postValue(db.budgetDao().getBudgetById(id))
+        }
+    }
+
+    fun getCurrentExpenses(id: Int) {
+        launch {
+            val db = buildDb(getApplication())
+            currentExpensesLD.postValue(db.expenseDao().getCurrentExpenses(id))
         }
     }
 

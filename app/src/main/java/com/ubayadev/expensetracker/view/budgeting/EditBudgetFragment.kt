@@ -13,11 +13,14 @@ import com.ubayadev.expensetracker.R
 import com.ubayadev.expensetracker.databinding.FragmentEditBudgetBinding
 import com.ubayadev.expensetracker.model.Budget
 import com.ubayadev.expensetracker.viewmodel.budgeting.ListBudgetViewModel
+import java.text.DecimalFormat
+import java.text.NumberFormat
 
 class EditBudgetFragment : BottomSheetDialogFragment() {
     private lateinit var binding: FragmentEditBudgetBinding
     private lateinit var viewModel: ListBudgetViewModel
     private var budget: Budget? = null
+    private var currentExpenses: Int = 0;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +51,11 @@ class EditBudgetFragment : BottomSheetDialogFragment() {
         binding.txtBudgetNominalLayout.isEnabled = false
 
         binding.btnUpdateBudget.setOnClickListener {
+//            Navigation.findNavController(it).popBackStack()
+        }
+
+        binding.btnCancelUpdateBudget.setOnClickListener {
+//            dismiss()
             Navigation.findNavController(it).popBackStack()
         }
 
@@ -55,6 +63,7 @@ class EditBudgetFragment : BottomSheetDialogFragment() {
             .get(ListBudgetViewModel::class.java)
 
         viewModel.getBudgetDetail(budgetId)
+        viewModel.getCurrentExpenses(budgetId)
 
         observeViewMode()
     }
@@ -67,6 +76,13 @@ class EditBudgetFragment : BottomSheetDialogFragment() {
 
             binding.txtUpdateBudgetName.setText(it.name)
             binding.txtUpdateBudgetNominal.setText(it.nominal.toString())
+        })
+
+        viewModel.currentExpensesLD.observe(viewLifecycleOwner, Observer {
+            currentExpenses = it
+            val formatter: NumberFormat = DecimalFormat("#,###")
+            val expenses: Double = it.toDouble()
+            binding.txtUpdateCurrentExpenses.text = "IDR " + formatter.format(expenses)
         })
     }
 }

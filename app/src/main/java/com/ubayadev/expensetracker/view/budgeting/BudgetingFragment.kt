@@ -54,6 +54,7 @@ class BudgetingFragment : Fragment() {
 
         binding.addBudgetFab.setOnClickListener {
             val action = BudgetingFragmentDirections.actionCreateNewBudget()
+//            val action = BudgetingFragmentDirections.actionEditBudget(1)
             Navigation
                 .findNavController(it)
                 .navigate(action)
