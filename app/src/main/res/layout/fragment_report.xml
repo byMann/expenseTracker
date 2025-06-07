@@ -27,10 +27,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cannot fetch data"
-            app:layout_constraintBottom_toBottomOf="@+id/reportRecyclerView"
-            app:layout_constraintEnd_toEndOf="@+id/reportRecyclerView"
-            app:layout_constraintStart_toStartOf="@+id/reportRecyclerView"
-            app:layout_constraintTop_toTopOf="@+id/reportRecyclerView" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textView6"
@@ -49,6 +49,7 @@
             android:layout_marginTop="3dp"
             android:text="IDR 2.950.000 / IDR 3.000.000"
             android:textSize="24sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
