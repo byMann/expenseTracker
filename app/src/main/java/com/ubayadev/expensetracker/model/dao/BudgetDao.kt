@@ -15,6 +15,9 @@ interface BudgetDao {
     @Query("SELECT * FROM budget WHERE user_id = :id")
     fun getAllUserBudgets(id: Int): List<Budget>
 
+    @Query("SELECT * FROM budget WHERE id = :id")
+    fun getBudgetById(id: Int): Budget
+
     @Update
     fun update(budget: Budget)
 }

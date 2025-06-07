@@ -14,10 +14,19 @@ import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
 class ListBudgetViewModel(application: Application): AndroidViewModel(application), CoroutineScope {
+    // List
     val budgetsLD = MutableLiveData<List<Budget>>()
     val budgetLoadingLD = MutableLiveData<Boolean>()
     val budgetErrorLD = MutableLiveData<String>()
+
+    // Create
     val newBudgetSuccessLD = MutableLiveData<Boolean>()
+
+    // Update
+    val budgetDetailLD = MutableLiveData<Budget>()
+    val editBudgetSuccessLD = MutableLiveData<Boolean>()
+    val editBudgetErrorLD = MutableLiveData<String>()
+
     private val job = Job()
 
     override val coroutineContext: CoroutineContext
@@ -55,6 +64,27 @@ class ListBudgetViewModel(application: Application): AndroidViewModel(applicatio
             userDb.budgetDao().insert(newBudget);
 
             newBudgetSuccessLD.postValue(true)
+        }
+    }
+
+    fun getBudgetDetail(id: Int) {
+        launch {
+            val db = buildDb(getApplication())
+            budgetDetailLD.postValue(db.budgetDao().getBudgetById(id))
+        }
+    }
+
+    fun update(id: Int, name: String, nominal: Int) {
+        launch {
+            // Cek total expenses di budget ini
+            val db = buildDb(getApplication())
+            val expenses = db.expenseDao().getCurrentExpenses(id)
+
+            // Kalo kurang, return error
+
+
+            // Kalo nominal baru lebih dari expenses, update
+
         }
     }
 }

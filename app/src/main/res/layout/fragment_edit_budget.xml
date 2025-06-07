@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".view.budgeting.CreateNewBudgetFragment">
+    tools:context=".view.budgeting.EditBudgetFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -16,15 +16,15 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="24dp"
-            android:text="New Budget"
+            android:text="Edit Budget"
             android:textSize="26sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayout11"
-            android:layout_width="0dp"
+            android:id="@+id/txtBudgetNameLayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="20dp"
@@ -35,14 +35,14 @@
             app:layout_constraintTop_toBottomOf="@+id/textView5">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/txtNewBudgetName"
+                android:id="@+id/txtUpdateBudgetName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayout12"
-            android:layout_width="0dp"
+            android:id="@+id/txtBudgetNominalLayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="16dp"
@@ -50,29 +50,29 @@
             android:hint="Nominal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout11"
+            app:layout_constraintTop_toBottomOf="@+id/txtBudgetNameLayout"
             app:startIconDrawable="@drawable/outline_attach_money_24">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/txtNewBudgetNominal"
+                android:id="@+id/txtUpdateBudgetNominal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingStart="60dp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/btnAddBudget"
+            android:id="@+id/btnUpdateBudget"
             style="@style/Widget.Material3.ExtendedFloatingActionButton.Secondary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="24dp"
-            android:text="ADD BUDGET"
+            android:text="UPDATE"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout12" />
+            app:layout_constraintTop_toBottomOf="@+id/txtBudgetNominalLayout" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

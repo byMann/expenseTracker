@@ -46,8 +46,8 @@ class CreateNewBudgetFragment : BottomSheetDialogFragment() {
             .get(ListBudgetViewModel::class.java)
 
         binding.btnAddBudget.setOnClickListener {
-            val budgetName = binding.txtBudgetName.text.toString()
-            val budgetNominal = binding.txtBudgetNominal.text.toString()
+            val budgetName = binding.txtNewBudgetName.text.toString()
+            val budgetNominal = binding.txtNewBudgetNominal.text.toString()
 
             if (budgetName != "" && budgetNominal.isDigitsOnly()) {
                 val budgetNominalInt = budgetNominal.toInt()

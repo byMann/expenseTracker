@@ -2,6 +2,7 @@ package com.ubayadev.expensetracker.view.budgeting
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.ubayadev.expensetracker.databinding.BudgetItemLayoutBinding
 import com.ubayadev.expensetracker.model.Budget
@@ -31,6 +32,16 @@ class BudgetListAdapter(var budgetList: ArrayList<Budget>): RecyclerView.Adapter
         val formatter: NumberFormat = DecimalFormat("#,###")
         val nominal: Double = budgetList[position].nominal.toDouble()
         holder.binding.txtNominal.text = "IDR " + formatter.format(nominal)
+
+        holder.binding.budgetLayout.setOnLongClickListener {
+            val action = BudgetingFragmentDirections
+                .actionEditBudget(budgetList[position].id!!)
+
+            Navigation
+                .findNavController(it)
+                .navigate(action)
+            true
+        }
     }
 
     fun updateBudgetList(newBudgetList: List<Budget>) {

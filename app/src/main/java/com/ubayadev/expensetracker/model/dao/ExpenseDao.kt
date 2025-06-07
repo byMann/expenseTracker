@@ -19,4 +19,7 @@ interface ExpenseDao {
         ORDER BY exp.date DESC
     """)
     fun getAllExpenses(): List<ExpenseWithBudgetName>
+
+    @Query("SELECT SUM(nominal) FROM expense WHERE budget_id = :budgetId")
+    fun getCurrentExpenses(budgetId: Int): Int
 }

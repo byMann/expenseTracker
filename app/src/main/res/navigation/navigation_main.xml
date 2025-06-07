@@ -18,6 +18,9 @@
         <action
             android:id="@+id/actionCreateNewBudget"
             app:destination="@id/createNewBudgetFragment" />
+        <action
+            android:id="@+id/actionEditBudget"
+            app:destination="@id/editBudgetFragment" />
     </fragment>
     <fragment
         android:id="@+id/itemReport"
@@ -34,4 +37,13 @@
         android:name="com.ubayadev.expensetracker.view.budgeting.CreateNewBudgetFragment"
         android:label="fragment_create_new_budget"
         tools:layout="@layout/fragment_create_new_budget" />
+    <fragment
+        android:id="@+id/editBudgetFragment"
+        android:name="com.ubayadev.expensetracker.view.budgeting.EditBudgetFragment"
+        android:label="fragment_edit_budget"
+        tools:layout="@layout/fragment_edit_budget" >
+        <argument
+            android:name="budget_id"
+            app:argType="integer" />
+    </fragment>
 </navigation>
