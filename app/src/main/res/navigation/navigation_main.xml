@@ -9,7 +9,11 @@
         android:id="@+id/itemExpense"
         android:name="com.ubayadev.expensetracker.view.expense.ExpenseTrackerFragment"
         android:label="fragment_expense_tracker"
-        tools:layout="@layout/fragment_expense_tracker" />
+        tools:layout="@layout/fragment_expense_tracker" >
+        <action
+            android:id="@+id/actionCreateExpenseTrackerFragment"
+            app:destination="@id/createExpenseTrackerFragment" />
+    </fragment>
     <fragment
         android:id="@+id/itemBudgeting"
         android:name="com.ubayadev.expensetracker.view.budgeting.BudgetingFragment"
@@ -46,4 +50,9 @@
             android:name="budget_id"
             app:argType="integer" />
     </fragment>
+    <fragment
+        android:id="@+id/createExpenseTrackerFragment"
+        android:name="com.ubayadev.expensetracker.view.expense.CreateExpenseTrackerFragment"
+        android:label="fragment_create_expense_tracker"
+        tools:layout="@layout/fragment_create_expense_tracker" />
 </navigation>

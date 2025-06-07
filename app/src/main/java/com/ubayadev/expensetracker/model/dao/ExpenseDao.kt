@@ -19,8 +19,15 @@ interface ExpenseDao {
         WHERE bud.user_id = :userId
         ORDER BY exp.date DESC
     """)
-    fun getAllExpenses(userId: Int): Int
+    fun getAllExpenses(userId: Int): List<Expense>
 
     @Query("SELECT SUM(nominal) FROM expense WHERE budget_id = :budgetId")
-    fun getCurrentExpenses(budgetId: Int): Int
+    fun getCurrentExpenses(budgetId: Int): Expense
+
+    @Query("""
+        SELECT exp.budget_id as budgetId, exp.date, exp.nominal
+        FROM expense AS exp
+        WHERE exp.id = :expId
+    """)
+    fun getExpensesbyId(expId: Int): Expense
 }

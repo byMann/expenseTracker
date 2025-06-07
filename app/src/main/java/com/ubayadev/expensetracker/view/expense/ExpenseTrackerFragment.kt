@@ -5,7 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.ubayadev.expensetracker.R
+import com.ubayadev.expensetracker.databinding.FragmentExpenseTrackerBinding
+import com.ubayadev.expensetracker.util.getCurrentUsername
+import com.ubayadev.expensetracker.viewmodel.expenses.ListExpenseViewModel
 
 /**
  * A simple [Fragment] subclass.
@@ -13,19 +19,29 @@ import com.ubayadev.expensetracker.R
  * create an instance of this fragment.
  */
 class ExpenseTrackerFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    private lateinit var binding: FragmentExpenseTrackerBinding
+    private lateinit var viewModel: ListExpenseViewModel
+    private val expListAdapter = ExpenseTrackerListAdapter(arrayListOf())
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_expense_tracker, container, false)
+        binding = FragmentExpenseTrackerBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        viewModel =ViewModelProvider(this).get(ListExpenseViewModel::class.java)
+        viewModel.refresh(getCurrentUsername(requireContext()))
+        binding.recViewExpenseTracker.layoutManager = LinearLayoutManager(context)
+        binding.recViewExpenseTracker.adapter = expListAdapter
+
+        binding.addExpenseFab.setOnClickListener {
+            val action = ExpenseTrackerFragmentDirections.actionCreateExpenseTrackerFragment()
+            Navigation.findNavController(it).navigate(action)
+        }
     }
 }
