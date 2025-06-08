@@ -6,7 +6,7 @@
     <data>
         <variable
             name="exp"
-            type="com.ubayadev.expensetracker.model.Expense" />
+            type="com.ubayadev.expensetracker.model.ExpenseWithBudgetName" />
         <variable
             name="listener"
             type="com.ubayadev.expensetracker.view.ExpenseTrackerListener" />

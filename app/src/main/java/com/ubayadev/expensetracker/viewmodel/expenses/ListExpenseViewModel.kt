@@ -6,6 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.ubayadev.expensetracker.model.Budget
 import com.ubayadev.expensetracker.model.Expense
+import com.ubayadev.expensetracker.model.ExpenseWithBudgetName
 import com.ubayadev.expensetracker.util.buildDb
 import com.ubayadev.expensetracker.util.getCurrentUsername
 import kotlinx.coroutines.CoroutineScope
@@ -16,13 +17,14 @@ import java.util.Date
 import kotlin.coroutines.CoroutineContext
 
 class ListExpenseViewModel (application: Application):AndroidViewModel(application), CoroutineScope{
-    val expenseLD = MutableLiveData<List<Expense>>()
+    val expenseLD = MutableLiveData<List<ExpenseWithBudgetName>>()
     val expenseLoadErrorLD = MutableLiveData<Boolean>()
-    val expenseloadingLD = MutableLiveData<Boolean>()
+    val expenseLoadingLD = MutableLiveData<Boolean>()
 
+    val currentExpenses = MutableLiveData<Int>()
     val newExpenseSuccessLD = MutableLiveData<Boolean>()
 
-    val expenseDetailLD = MutableLiveData<Expense>()
+    val expenseDetailLD = MutableLiveData<ExpenseWithBudgetName>()
 
     private var job = Job()
 
@@ -30,7 +32,7 @@ class ListExpenseViewModel (application: Application):AndroidViewModel(applicati
         get() = job + Dispatchers.IO
 
     fun refresh(username: String) {
-        expenseloadingLD.value = true
+        expenseLoadingLD.value = true
         expenseLoadErrorLD.value = false
 
         launch {
@@ -38,8 +40,8 @@ class ListExpenseViewModel (application: Application):AndroidViewModel(applicati
             val user_id = db.userDao().select(username)!!.id
             Log.d("USER_ID", user_id.toString())
 
-//            expenseLD.postValue(db.expenseDao().getAllExpenses(user_id))
-            expenseloadingLD.postValue(false)
+            expenseLD.postValue(db.expenseDao().getAllExpenses(user_id))
+            expenseLoadingLD.postValue(false)
         }
     }
     fun create(expDate: Int, expNominal: Int,expNote: String, budgetId:Int) {
@@ -53,10 +55,16 @@ class ListExpenseViewModel (application: Application):AndroidViewModel(applicati
         }
     }
 
-    fun getExpenseDetail(expId:Int){
+    fun getCurrentExpense(budgetId: Int){
         launch {
-            val db  = buildDb(getApplication())
-//            expenseDetailLD.postValue(db.expenseDao().getExpensesbyId(expId))
+            val db = buildDb(getApplication())
+            currentExpenses.postValue(db.expenseDao().getCurrentExpenses(budgetId))
+        }
+    }
+
+    fun getExpenseDetail(exp : ExpenseWithBudgetName){
+        launch {
+            expenseDetailLD.postValue(exp)
         }
     }
 
