@@ -62,3 +62,8 @@ data class ExpenseWithBudgetName(
     val nominal: Int,
     val name: String
 )
+
+data class ReportData(
+    val budget: Budget,
+    val totalExpense: Int
+)
