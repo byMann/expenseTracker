@@ -12,22 +12,23 @@ interface ExpenseDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(expense: Expense)
 
-//    @Query("""
-//        SELECT exp.id, exp.budget_id as budgetId, exp.date, exp.nominal, bud.name
-//        FROM expense AS exp
-//        INNER JOIN budget AS bud ON exp.budget_id = bud.id
-//        WHERE bud.user_id = :userId
-//        ORDER BY exp.date DESC
-//    """)
-//    fun getAllExpenses(userId: Int): List<Expense>
+    @Query("""
+        SELECT exp.id, exp.budget_id as budgetId, exp.date, exp.nominal, bud.name
+        FROM expense AS exp
+        INNER JOIN budget AS bud ON exp.budget_id = bud.id
+        WHERE bud.user_id = :userId
+        ORDER BY exp.date DESC
+    """)
+    fun getAllExpenses(userId: Int): List<ExpenseWithBudgetName>
 
     @Query("SELECT SUM(nominal) FROM expense WHERE budget_id = :budgetId")
     fun getCurrentExpenses(budgetId: Int): Int
 
-//    @Query("""
-//        SELECT exp.id, exp.budget_id as budgetId, exp.notes, exp.date, exp.nominal
-//        FROM expense AS exp
-//        WHERE exp.id = :expId
-//    """)
-//    fun getExpensesbyId(expId: Int): Expense
+    @Query("""
+        SELECT exp.id, exp.budget_id as budgetId, exp.date, exp.nominal, bud.name
+        FROM expense AS exp
+        INNER JOIN budget AS bud ON exp.budget_id = bud.id
+        WHERE exp.id = :expId
+    """)
+    fun getExpensesbyId(expId: Int): ExpenseWithBudgetName
 }

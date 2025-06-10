@@ -7,9 +7,10 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.ubayadev.expensetracker.databinding.ExpenseItemLayoutBinding
 import com.ubayadev.expensetracker.model.Expense
+import com.ubayadev.expensetracker.model.ExpenseWithBudgetName
 import com.ubayadev.expensetracker.view.ExpenseTrackerListener
 
-class ExpenseTrackerListAdapter (val expList:ArrayList<Expense>)
+class ExpenseTrackerListAdapter (val expList:ArrayList<ExpenseWithBudgetName>, val adapterOnClick : (ExpenseWithBudgetName) -> Unit)
     :RecyclerView.Adapter<ExpenseTrackerListAdapter.ExpenseTrackerViewHolder>(), ExpenseTrackerListener{
     class ExpenseTrackerViewHolder(var binding: ExpenseItemLayoutBinding):
         RecyclerView.ViewHolder(binding.root)
@@ -27,12 +28,23 @@ class ExpenseTrackerListAdapter (val expList:ArrayList<Expense>)
     override fun onBindViewHolder(holder: ExpenseTrackerViewHolder, position: Int) {
         holder.binding.exp = expList[position]
         holder.binding.listener = this
+
+//        holder.binding.txtNominalExpense.setOnClickListener {
+//            b->adapterOnClick(expList[position])
+//        }
     }
 
     override fun onDetailExpenseClick(v: View) {
         //Buka Modal Detail Expense
 //        val action = TodoListFragmentDirections.actionEditTodoFragment(v.tag.toString().toInt())
 //        Navigation.findNavController(v).navigate(action)
+    }
+
+
+    fun updateExpenseList(newExpenseList: List<ExpenseWithBudgetName>) {
+        expList.clear()
+        expList.addAll(newExpenseList)
+        notifyDataSetChanged()
     }
 
 }
