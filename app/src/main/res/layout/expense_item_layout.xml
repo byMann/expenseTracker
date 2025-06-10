@@ -34,13 +34,13 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="15dp"
             android:layout_marginBottom="15dp"
-            android:text="@{exp.budgetId}"
+            android:text="@{exp.name}"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtDateExpense" />
 
-        <TextView
+        7<TextView
             android:id="@+id/txtNominalExpense"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -48,9 +48,10 @@
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
             android:gravity="end"
+            android:onClick="@{listener::onDetailExpenseClick}"
+            android:tag="@{exp.budgetId}"
             android:text="@{exp.nominal}"
             android:textSize="25sp"
-            android:onClick="@{listener::onDetailExpenseClick}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
