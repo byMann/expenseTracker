@@ -16,6 +16,7 @@ import androidx.navigation.Navigation
 import com.ubayadev.expensetracker.R
 import com.ubayadev.expensetracker.databinding.FragmentCreateExpenseTrackerBinding
 import com.ubayadev.expensetracker.model.Expense
+import com.ubayadev.expensetracker.util.convertToUnix
 import com.ubayadev.expensetracker.util.getCurrentUsername
 import com.ubayadev.expensetracker.viewmodel.budgeting.ListBudgetViewModel
 import com.ubayadev.expensetracker.viewmodel.expenses.ListExpenseViewModel
@@ -28,6 +29,8 @@ class CreateExpenseTrackerFragment : Fragment() {
     private lateinit var viewModel: ListExpenseViewModel
     private lateinit var viewModelBudget:ListBudgetViewModel
     private var selectedBudgetId: Int? = null
+    private var currentBudget: Int = 0;
+    private var currentExpense: Int = 0;
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,9 +42,11 @@ class CreateExpenseTrackerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this).get(ListExpenseViewModel::class.java)
+        viewModel = ViewModelProvider(this)
+            .get(ListExpenseViewModel::class.java)
 
-        viewModelBudget = ViewModelProvider(this).get(ListBudgetViewModel::class.java)
+        viewModelBudget = ViewModelProvider(this)
+            .get(ListBudgetViewModel::class.java)
         viewModelBudget.fetch(getCurrentUsername(requireContext()))
 
 
@@ -58,12 +63,27 @@ class CreateExpenseTrackerFragment : Fragment() {
             val notes = binding.txtNoteNewExpense.text.toString()
 
             if (date != null && nominal != null && selectedBudgetId != null) {
-                viewModel.create(date.toInt(), nominal, notes, selectedBudgetId!!)
-                Toast.makeText(view.context, "Data added", Toast.LENGTH_LONG).show()
-                Navigation.findNavController(it).popBackStack()
+                if (nominal < 0) {
+                    Toast.makeText(view.context, "Nominal can't be negative", Toast.LENGTH_LONG).show()
+                } else if (currentExpense + nominal > currentBudget) {
+                    Toast.makeText(view.context, "Budget Limit Exceeded", Toast.LENGTH_LONG).show()
+                } else {
+                    viewModel.create(
+                        convertToUnix(binding.txtDateExpense.text.toString()).toInt(),
+                        nominal,
+                        notes,
+                        selectedBudgetId!!
+                    )
+                    Toast.makeText(view.context, "Data added", Toast.LENGTH_LONG).show()
+                    Navigation.findNavController(it).popBackStack()
+                }
             } else {
                 Toast.makeText(view.context, "Mohon isi semua data dengan benar", Toast.LENGTH_SHORT).show()
             }
+        }
+
+        binding.btnCancelAddExpense.setOnClickListener {
+            Navigation.findNavController(it).popBackStack()
         }
 
         binding.txtDateExpense.setOnClickListener {
@@ -138,8 +158,10 @@ class CreateExpenseTrackerFragment : Fragment() {
 
             viewModel.currentExpenses.observe(viewLifecycleOwner) { totalSpent ->
                 binding.txtCurrentExpenseBudget.text = "IDR $totalSpent"
+                currentExpense = totalSpent
 
                 val max = budgetList.find { it.id == selectedBudgetId }?.nominal ?: 0
+                currentBudget = max
                 binding.progressBarBudgetLeft.max = max
                 binding.progressBarBudgetLeft.progress = totalSpent
             }

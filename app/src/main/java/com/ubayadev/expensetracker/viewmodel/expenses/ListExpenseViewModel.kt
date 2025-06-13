@@ -62,9 +62,10 @@ class ListExpenseViewModel (application: Application):AndroidViewModel(applicati
         }
     }
 
-    fun getExpenseDetail(exp : ExpenseWithBudgetName){
+    fun getExpenseDetail(expense_id: Int){
         launch {
-            expenseDetailLD.postValue(exp)
+            val db = buildDb(getApplication())
+            expenseDetailLD.postValue(db.expenseDao().getExpensesbyId(expense_id));
         }
     }
 

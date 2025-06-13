@@ -60,7 +60,8 @@ data class ExpenseWithBudgetName(
     val budgetId: Int,
     val date: Int,
     val nominal: Int,
-    val name: String
+    val name: String,
+    val notes: String,
 )
 
 data class ReportData(

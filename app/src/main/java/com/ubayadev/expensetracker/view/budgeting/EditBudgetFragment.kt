@@ -16,6 +16,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.ubayadev.expensetracker.R
 import com.ubayadev.expensetracker.databinding.FragmentEditBudgetBinding
 import com.ubayadev.expensetracker.model.Budget
+import com.ubayadev.expensetracker.util.formatToRupiah
 import com.ubayadev.expensetracker.viewmodel.budgeting.ListBudgetViewModel
 import java.text.DecimalFormat
 import java.text.NumberFormat
@@ -98,9 +99,9 @@ class EditBudgetFragment : BottomSheetDialogFragment() {
 
         viewModel.currentExpensesLD.observe(viewLifecycleOwner, Observer {
             currentExpenses = it
-            val formatter: NumberFormat = DecimalFormat("#,###")
-            val expenses: Double = it.toDouble()
-            binding.txtUpdateCurrentExpenses.text = "IDR " + formatter.format(expenses)
+//            val formatter: NumberFormat = DecimalFormat("#,###")
+//            val expenses: Double = it.toDouble()
+            binding.txtUpdateCurrentExpenses.text = "IDR " + formatToRupiah(currentExpenses)
         })
 
         viewModel.editBudgetSuccessLD.observe(viewLifecycleOwner, Observer {

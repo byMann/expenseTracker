@@ -12,7 +12,7 @@ import com.ubayadev.expensetracker.util.convertUnixToFormattedDate
 import com.ubayadev.expensetracker.util.formatToRupiah
 import com.ubayadev.expensetracker.view.ExpenseTrackerListener
 
-class ExpenseTrackerListAdapter (val expList:ArrayList<ExpenseWithBudgetName>, val adapterOnClick : (ExpenseWithBudgetName) -> Unit)
+class ExpenseTrackerListAdapter (val expList:ArrayList<ExpenseWithBudgetName>)
     :RecyclerView.Adapter<ExpenseTrackerListAdapter.ExpenseTrackerViewHolder>(), ExpenseTrackerListener{
     class ExpenseTrackerViewHolder(var binding: ExpenseItemLayoutBinding):
         RecyclerView.ViewHolder(binding.root)
@@ -38,6 +38,11 @@ class ExpenseTrackerListAdapter (val expList:ArrayList<ExpenseWithBudgetName>, v
         holder.binding.txtNominalExpense.text = "IDR " + formatToRupiah(expList[position].nominal)
         holder.binding.txtBudgetCategory.text = expList[position].name
         holder.binding.txtDateExpense.text = convertUnixToFormattedDate(expList[position].date.toLong())
+
+        holder.binding.txtNominalExpense.setOnClickListener {
+            val action = ExpenseTrackerFragmentDirections.actionDetailExpense(expList[position].id)
+            Navigation.findNavController(it).navigate(action)
+        }
     }
 
     override fun onDetailExpenseClick(v: View) {

@@ -7,6 +7,7 @@ import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import java.util.TimeZone
 
 val DB_NAME = "moneytrackerdb"
 private val SHARED_PREFERENCE_KEY = "SETTING"
@@ -61,4 +62,11 @@ fun convertUnixToFormattedDate(unixTime: Long): String {
     val date = Date(unixTime * 1000) // Jika dalam detik
     val format = SimpleDateFormat("dd MMMM yyyy hh.mm a", Locale("id"))
     return format.format(date)
+}
+
+fun convertToUnix(dateTimeString: String): Long {
+    val format = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
+    format.timeZone = TimeZone.getTimeZone("Asia/Jakarta") // or your desired zone
+    val date = format.parse(dateTimeString)
+    return date?.time?.div(1000) ?: 0L // Convert from milliseconds to seconds
 }

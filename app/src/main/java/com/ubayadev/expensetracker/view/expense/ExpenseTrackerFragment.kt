@@ -18,7 +18,7 @@ import com.ubayadev.expensetracker.viewmodel.expenses.ListExpenseViewModel
 class ExpenseTrackerFragment : Fragment() {
     private lateinit var binding: FragmentExpenseTrackerBinding
     private lateinit var viewModel: ListExpenseViewModel
-    private val expListAdapter = ExpenseTrackerListAdapter(arrayListOf(), {item->viewModel.getExpenseDetail(item)})
+    private val expListAdapter = ExpenseTrackerListAdapter(arrayListOf())
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,10 +42,10 @@ class ExpenseTrackerFragment : Fragment() {
         binding.txtErrorExpenseTracker.visibility = View.GONE
         binding.progressBarExpenseTracker.visibility = View.VISIBLE
 
-//        binding.addExpenseFab.setOnClickListener {
-//            val action = ExpenseTrackerFragmentDirections.actionCreateExpenseTrackerFragment()
-//            Navigation.findNavController(it).navigate(action)
-//        }
+        binding.addExpenseFab.setOnClickListener {
+            val action = ExpenseTrackerFragmentDirections.actionCreateExpenseTrackerFragment()
+            Navigation.findNavController(it).navigate(action)
+        }
 
         observeViewModel()
     }
