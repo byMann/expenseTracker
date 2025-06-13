@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ubayadev.expensetracker.databinding.ExpenseItemLayoutBinding
 import com.ubayadev.expensetracker.model.Expense
 import com.ubayadev.expensetracker.model.ExpenseWithBudgetName
+import com.ubayadev.expensetracker.util.convertUnixToFormattedDate
+import com.ubayadev.expensetracker.util.formatToRupiah
 import com.ubayadev.expensetracker.view.ExpenseTrackerListener
 
 class ExpenseTrackerListAdapter (val expList:ArrayList<ExpenseWithBudgetName>, val adapterOnClick : (ExpenseWithBudgetName) -> Unit)
@@ -26,12 +28,16 @@ class ExpenseTrackerListAdapter (val expList:ArrayList<ExpenseWithBudgetName>, v
     }
 
     override fun onBindViewHolder(holder: ExpenseTrackerViewHolder, position: Int) {
-        holder.binding.exp = expList[position]
-        holder.binding.listener = this
+//        holder.binding.exp = expList[position]
+//        holder.binding.listener = this
 
 //        holder.binding.txtNominalExpense.setOnClickListener {
 //            b->adapterOnClick(expList[position])
 //        }
+
+        holder.binding.txtNominalExpense.text = "IDR " + formatToRupiah(expList[position].nominal)
+        holder.binding.txtBudgetCategory.text = expList[position].name
+        holder.binding.txtDateExpense.text = convertUnixToFormattedDate(expList[position].date.toLong())
     }
 
     override fun onDetailExpenseClick(v: View) {

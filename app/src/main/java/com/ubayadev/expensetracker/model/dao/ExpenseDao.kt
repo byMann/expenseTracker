@@ -13,7 +13,7 @@ interface ExpenseDao {
     fun insert(expense: Expense)
 
     @Query("""
-        SELECT exp.id, exp.budget_id as budgetId, exp.date, exp.nominal, bud.name
+        SELECT exp.id, exp.budget_id as budgetId, exp.date, exp.nominal, bud.name as name
         FROM expense AS exp
         INNER JOIN budget AS bud ON exp.budget_id = bud.id
         WHERE bud.user_id = :userId

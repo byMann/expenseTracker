@@ -22,39 +22,43 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            android:text="@{exp.date}"
+            android:text=""
+            android:textSize="12sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/txtBudgetCategory"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="130dp"
-            android:layout_height="33dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="15dp"
-            android:text="@{exp.name}"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:text=""
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtDateExpense" />
 
-        7<TextView
+        <TextView
             android:id="@+id/txtNominalExpense"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="15dp"
             android:gravity="end"
             android:onClick="@{listener::onDetailExpenseClick}"
-            android:tag="@{exp.budgetId}"
-            android:text="@{exp.nominal}"
+            android:tag=""
+            android:text=""
             android:textSize="25sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/txtDateExpense" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

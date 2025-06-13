@@ -31,18 +31,21 @@ class ExpenseTrackerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel =ViewModelProvider(this).get(ListExpenseViewModel::class.java)
+        viewModel = ViewModelProvider(this)
+            .get(ListExpenseViewModel::class.java)
+
         viewModel.refresh(getCurrentUsername(requireContext()))
+
         binding.recViewExpenseTracker.layoutManager = LinearLayoutManager(context)
         binding.recViewExpenseTracker.adapter = expListAdapter
 
         binding.txtErrorExpenseTracker.visibility = View.GONE
         binding.progressBarExpenseTracker.visibility = View.VISIBLE
 
-        binding.addExpenseFab.setOnClickListener {
-            val action = ExpenseTrackerFragmentDirections.actionCreateExpenseTrackerFragment()
-            Navigation.findNavController(it).navigate(action)
-        }
+//        binding.addExpenseFab.setOnClickListener {
+//            val action = ExpenseTrackerFragmentDirections.actionCreateExpenseTrackerFragment()
+//            Navigation.findNavController(it).navigate(action)
+//        }
 
         observeViewModel()
     }

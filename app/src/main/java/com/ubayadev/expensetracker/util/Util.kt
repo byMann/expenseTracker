@@ -3,6 +3,10 @@ package com.ubayadev.expensetracker.util
 import android.content.Context
 import android.content.SharedPreferences
 import com.ubayadev.expensetracker.model.ExpenseTrackerDatabase
+import java.text.NumberFormat
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 val DB_NAME = "moneytrackerdb"
 private val SHARED_PREFERENCE_KEY = "SETTING"
@@ -46,4 +50,15 @@ fun getCurrentUsername(context: Context): String {
 fun getCurrentId(context: Context): Int {
     return buildSharedPreference(context)
         .getInt(ID_PREFERENCE_KEY, -1)
+}
+
+fun formatToRupiah(amount: Int): String {
+    val formatter = NumberFormat.getNumberInstance(Locale("id", "ID"))
+    return formatter.format(amount)
+}
+
+fun convertUnixToFormattedDate(unixTime: Long): String {
+    val date = Date(unixTime * 1000) // Jika dalam detik
+    val format = SimpleDateFormat("dd MMMM yyyy hh.mm a", Locale("id"))
+    return format.format(date)
 }
